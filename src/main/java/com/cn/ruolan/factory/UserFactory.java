@@ -13,17 +13,8 @@ import java.util.UUID;
 public class UserFactory {
 
 
-//    public static User login() {
-//
-//
-//
-//        return User;
-//    }
-
-
     //通过手机号查询用户
     public static User findByPhone(String phone) {
-
 
         return Hib.query(new Hib.QueryResult<User>() {
             @Override
@@ -38,6 +29,28 @@ public class UserFactory {
         });
     }
 
+    /**
+     * 通过用户id查询用户
+     * @param userId  用户id
+     * @return User
+     */
+    public static User findById(String userId) {
+
+        return Hib.query(new Hib.QueryResult<User>() {
+            @Override
+            public User query(Session session) {
+
+                return session.get(User.class, userId);
+            }
+        });
+    }
+
+    /**
+     * 根据用户名查询用户
+     *
+     * @param username 用户名  这个唯一
+     * @return User
+     */
     public static User findByName(String username) {
 
         return Hib.query(new Hib.QueryResult<User>() {
@@ -50,6 +63,26 @@ public class UserFactory {
             }
         });
     }
+
+    /**
+     * 根据唯一token查询用户
+     *
+     * @param token 当前用户的token
+     * @return User
+     */
+    public static User findByToken(String token) {
+
+        return Hib.query(new Hib.QueryResult<User>() {
+            @Override
+            public User query(Session session) {
+                User user = (User) session.createQuery("from User where token =:token")
+                        .setParameter("token", token)
+                        .uniqueResult();
+                return user;
+            }
+        });
+    }
+
 
     public static User register(String username, String phone, String password) {
 

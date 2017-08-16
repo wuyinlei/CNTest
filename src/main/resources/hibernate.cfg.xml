@@ -58,5 +58,8 @@
         <mapping package="com.cn.ruolan.bean.db"
                  class="com.cn.ruolan.bean.db.User"/>
 
+        <mapping package="com.cn.ruolan.bean.db"
+                 class="com.cn.ruolan.bean.db.Dynamic"/>
+
     </session-factory>
 </hibernate-configuration>
