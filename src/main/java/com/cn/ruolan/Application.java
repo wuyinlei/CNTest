@@ -1,5 +1,6 @@
 package com.cn.ruolan;
 
+import com.cn.ruolan.provider.AuthRequestFilter;
 import com.cn.ruolan.provider.GsonProvider;
 import org.glassfish.jersey.server.ResourceConfig;
 
@@ -18,7 +19,7 @@ public class Application extends ResourceConfig {
 //        packages(AccountService.class.getPackage().getName());
 
         //注册拦截器
-//        register(AuthRequestFilter.class);
+        register(AuthRequestFilter.class);
 
         //注册Json转换器
         register(GsonProvider.class);   //替换解析器为Gson

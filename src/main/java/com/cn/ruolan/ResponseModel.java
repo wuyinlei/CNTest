@@ -1,5 +1,6 @@
 package com.cn.ruolan;
 
+import com.cn.ruolan.bean.card.BaseModel;
 import com.cn.ruolan.bean.card.DynamicCard;
 import com.google.gson.annotations.Expose;
 
@@ -48,6 +49,9 @@ public class ResponseModel<T> implements Serializable {
 
     //删除权限出错
     private static final int ERROR_DYNAMIC_NOT_ADMIN = 10009;
+
+    //添加点赞出错
+    private static final int ERROR_DYNAMIC_ADD_LIKED_ERROR = 100010;
 
 
     @Expose
@@ -117,6 +121,10 @@ public class ResponseModel<T> implements Serializable {
 
     public static <T>ResponseModel<T> buildNoAuthorError() {
         return new ResponseModel<T>(ERROR_DYNAMIC_NOT_ADMIN, " No Administrator privileges");
+    }
+
+    public static <T>ResponseModel<T> buildAddLikedError() {
+        return new ResponseModel<T>(ERROR_DYNAMIC_ADD_LIKED_ERROR, " Dynamic Add Liked Error");
     }
 
 

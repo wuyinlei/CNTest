@@ -3,7 +3,6 @@ package com.cn.ruolan.bean.api.dynamic;
 import com.google.common.base.Strings;
 import com.google.gson.annotations.Expose;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

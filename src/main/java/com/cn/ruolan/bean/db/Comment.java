@@ -30,12 +30,19 @@ public class Comment {
     private String commentContent;  //评论人发布的评论的内容
 
     @Column
+    private String nickname;
+
+    @Column
     private String replayId;  //回复该评论的用户id
 
     @Column
     private String replayContent;  //回复人发布的评论的内容
 
     @Column
+    private String replayName;
+
+
+    @Column(nullable = false)
     private String dynamicId;  //该条评论评论的动态id
 
 
@@ -122,5 +129,21 @@ public class Comment {
 
     public void setUpdateAt(LocalDateTime updateAt) {
         this.updateAt = updateAt;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getReplayName() {
+        return replayName;
+    }
+
+    public void setReplayName(String replayName) {
+        this.replayName = replayName;
     }
 }

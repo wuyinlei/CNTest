@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.security.Principal;
 import java.time.LocalDateTime;
 
 /**
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "CN_USER")
-public class User {
+public class User implements Principal {
 
     @Id  //主键
     @PrimaryKeyJoinColumn
@@ -136,6 +137,11 @@ public class User {
 
     public void setUpdateAt(LocalDateTime updateAt) {
         this.updateAt = updateAt;
+    }
+
+    @Override
+    public String getName() {
+        return username;
     }
 
 //    public void setDynamics(Set<Dynamic> dynamics) {

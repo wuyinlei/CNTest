@@ -40,7 +40,11 @@ public class UserFactory {
             @Override
             public User query(Session session) {
 
-                return session.get(User.class, userId);
+               return (User) session.createQuery("from User where userId=:userId")
+                        .setParameter("userId",userId)
+                        .setMaxResults(1)
+                        .uniqueResult();
+
             }
         });
     }

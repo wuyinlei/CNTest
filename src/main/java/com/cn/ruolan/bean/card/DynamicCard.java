@@ -28,12 +28,12 @@ public class DynamicCard {
 
 
 
-    public DynamicCard(Dynamic dynamic) {
+    public DynamicCard(Dynamic dynamic,User user) {
         this.id = dynamic.getId();
         this.content = dynamic.getContent();
         this.pictures = dynamic.getPictures();
         this.publishId = dynamic.getPublishId();
-        this.user = new UserCard(UserFactory.findById(dynamic.getPublishId()));
+        this.user = new UserCard(user);
     }
 
     public String getId() {

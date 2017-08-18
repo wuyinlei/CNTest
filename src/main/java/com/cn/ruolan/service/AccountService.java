@@ -4,6 +4,7 @@ import com.cn.ruolan.ResponseModel;
 import com.cn.ruolan.bean.api.account.AccountRspModel;
 import com.cn.ruolan.bean.api.account.LoginModel;
 import com.cn.ruolan.bean.api.account.RegModel;
+import com.cn.ruolan.bean.card.BaseModel;
 import com.cn.ruolan.bean.db.User;
 import com.cn.ruolan.factory.UserFactory;
 
@@ -16,7 +17,7 @@ import javax.ws.rs.core.MediaType;
 
 //127.0.0.1/api/account
 @Path("/account")
-public class AccountService {
+public class AccountService extends BaseService{
 
     @GET
     @Path("/login")

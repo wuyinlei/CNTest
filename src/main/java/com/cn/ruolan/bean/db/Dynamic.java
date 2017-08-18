@@ -34,6 +34,16 @@ public class Dynamic {
     @Column
     private String pictures;  //动态图片  可以为空
 
+    @Column(updatable = false, nullable = false)
+    private String avatar;  //动态图片  可以为空
+
+    @Column(updatable = false, nullable = false)
+    private String username;  //动态图片  可以为空
+
+
+    @Column(nullable = false, updatable = true)
+    private String viewCount;  //动态图片  可以为空
+
 //    //发布动态的人员
 //    @JoinColumn(name = "publishId")
 //    @ManyToOne(fetch = FetchType.EAGER, optional = false)  //多对一  你可以关注很多人   每一次关注都是一条数据   可以创建很多个关注的信息
@@ -41,8 +51,14 @@ public class Dynamic {
 
     //这个字段仅仅只是为了对应sender的数据库字段senderId
     //不允许手动的更新和插入
-    @Column(updatable = false, insertable = false, nullable = false)
+    @Column(nullable = false)
     private String publishId;
+
+    @Column
+    private String likedCount;
+
+    @Column
+    private String commentSum;
 
 
     @CreationTimestamp
@@ -57,7 +73,7 @@ public class Dynamic {
     @Column(nullable = false)
     private LocalDateTime updateAt = LocalDateTime.now();  //更新时间
 
-    public Dynamic( PublishModel model) {
+    public Dynamic(PublishModel model) {
         this.content = model.getContent();
 //        this.publish = sender;
         this.content = model.getContent();
@@ -132,4 +148,46 @@ public class Dynamic {
     public void setUpdateAt(LocalDateTime updateAt) {
         this.updateAt = updateAt;
     }
+
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public String getCommentSum() {
+        return commentSum;
+    }
+
+    public void setCommentSum(String commentSum) {
+        this.commentSum = commentSum;
+    }
+
+    public String getLikedCount() {
+        return likedCount;
+    }
+
+    public void setLikedCount(String likedCount) {
+        this.likedCount = likedCount;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setViewCount(String viewCount) {
+        this.viewCount = viewCount;
+    }
+
+    public String getViewCount() {
+        return viewCount;
+    }
 }
+

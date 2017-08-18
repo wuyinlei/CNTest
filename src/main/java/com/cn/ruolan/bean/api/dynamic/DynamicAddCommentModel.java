@@ -1,6 +1,5 @@
 package com.cn.ruolan.bean.api.dynamic;
 
-import com.cn.ruolan.bean.db.Dynamic;
 import com.google.common.base.Strings;
 import com.google.gson.annotations.Expose;
 
@@ -9,7 +8,7 @@ import com.google.gson.annotations.Expose;
  *
  * @function 发表动态评论的model
  */
-public class DynamicCommentModel {
+public class DynamicAddCommentModel {
 
     @Expose
     private String dynamicId;  //动态id
@@ -23,7 +22,13 @@ public class DynamicCommentModel {
     @Expose
     private String content;
 
-    public static boolean check(DynamicCommentModel model) {
+    @Expose
+    private String username;
+
+    @Expose
+    private String replayName;
+
+    public static boolean check(DynamicAddCommentModel model) {
         //model不允许为空
         return model != null && Strings.isNullOrEmpty(model.dynamicId)
                 || Strings.isNullOrEmpty(model.userId)
@@ -60,5 +65,21 @@ public class DynamicCommentModel {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getReplayName() {
+        return replayName;
+    }
+
+    public void setReplayName(String replayName) {
+        this.replayName = replayName;
     }
 }

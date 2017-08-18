@@ -1,5 +1,6 @@
 package com.cn.ruolan.bean.api.dynamic;
 
+import com.google.common.base.Strings;
 import com.google.gson.annotations.Expose;
 
 /**
@@ -15,6 +16,12 @@ public class DynamicListModel {
 
     @Expose
     private String publishId;// 当前用户的id
+
+    public static boolean check(DynamicListModel model) {
+        return model != null && Strings.isNullOrEmpty(model.index)
+                || Strings.isNullOrEmpty(model.count)
+                || Strings.isNullOrEmpty(model.publishId);
+    }
 
     public String getIndex() {
         return index;
