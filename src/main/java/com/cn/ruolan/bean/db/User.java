@@ -1,14 +1,11 @@
 package com.cn.ruolan.bean.db;
 
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Created by wuyinlei on 2017/8/15.
@@ -54,11 +51,11 @@ public class User {
     @Column(nullable = false)
     private LocalDateTime updateAt = LocalDateTime.now();  //更新时间
 
-    //我发布的动态   对应的是动态里面的id
-    @JoinColumn(name = "publishId")   //懒加载  加载用户信息的时候不加载这个集合
-    @LazyCollection(LazyCollectionOption.EXTRA)  //懒加载集合  尽可能的不加载具体的数据
-    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    private Set<Dynamic> dynamics = new HashSet<>();
+//    //我发布的动态   对应的是动态里面的id
+//    @JoinColumn(name = "publishId")   //懒加载  加载用户信息的时候不加载这个集合
+//    @LazyCollection(LazyCollectionOption.EXTRA)  //懒加载集合  尽可能的不加载具体的数据
+//    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+//    private Set<Dynamic> dynamics = new HashSet<>();
 
 
     public String getUserId() {
@@ -141,11 +138,11 @@ public class User {
         this.updateAt = updateAt;
     }
 
-    public void setDynamics(Set<Dynamic> dynamics) {
-        this.dynamics = dynamics;
-    }
-
-    public Set<Dynamic> getDynamics() {
-        return dynamics;
-    }
+//    public void setDynamics(Set<Dynamic> dynamics) {
+//        this.dynamics = dynamics;
+//    }
+//
+//    public Set<Dynamic> getDynamics() {
+//        return dynamics;
+//    }
 }

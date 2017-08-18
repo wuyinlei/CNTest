@@ -1,7 +1,5 @@
 package com.cn.ruolan.bean.db;
 
-import com.cn.ruolan.bean.api.dynamic.PublishModel;
-import com.cn.ruolan.provider.GsonProvider;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -10,12 +8,11 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 /**
- * Created by wuyinlei on 2017/8/16.
+ * Created by wuyinlei on 2017/8/17.
  */
-
 @Entity
-@Table(name = "CN_DYNAMIC")
-public class Dynamic {
+@Table(name = "CN_COMMENT")
+public class Comment {
 
     @Id
     @PrimaryKeyJoinColumn
@@ -24,25 +21,22 @@ public class Dynamic {
     @GeneratedValue(generator = "uuid")   //UUID的类型  主键生成的存储的类型
     @GenericGenerator(name = "uuid", strategy = "uuid2")  //把uuid的生成器定义为uuid2  uuid2在hibernate中是常规的UUID
     @Column(unique = false, nullable = false)  //不能更改 不允许为空
-    private String id;
-
-    //内容不允许为空  类型为text
-    @Column(nullable = false, columnDefinition = "TEXT")
-    private String content;
-
+    private String id;   //该评论的id
 
     @Column
-    private String pictures;  //动态图片  可以为空
+    private String commentId;  //评论的用户id
 
-//    //发布动态的人员
-//    @JoinColumn(name = "publishId")
-//    @ManyToOne(fetch = FetchType.EAGER, optional = false)  //多对一  你可以关注很多人   每一次关注都是一条数据   可以创建很多个关注的信息
-//    private User publish;
+    @Column
+    private String commentContent;  //评论人发布的评论的内容
 
-    //这个字段仅仅只是为了对应sender的数据库字段senderId
-    //不允许手动的更新和插入
-    @Column(updatable = false, insertable = false, nullable = false)
-    private String publishId;
+    @Column
+    private String replayId;  //回复该评论的用户id
+
+    @Column
+    private String replayContent;  //回复人发布的评论的内容
+
+    @Column
+    private String dynamicId;  //该条评论评论的动态id
 
 
     @CreationTimestamp
@@ -57,17 +51,6 @@ public class Dynamic {
     @Column(nullable = false)
     private LocalDateTime updateAt = LocalDateTime.now();  //更新时间
 
-    public Dynamic( PublishModel model) {
-        this.content = model.getContent();
-//        this.publish = sender;
-        this.content = model.getContent();
-        this.pictures = GsonProvider.getGson().toJson(model.getPictures());
-        this.publishId = model.getPublishId();
-    }
-
-    public Dynamic() {
-
-    }
 
     public String getId() {
         return id;
@@ -77,36 +60,44 @@ public class Dynamic {
         this.id = id;
     }
 
-    public String getContent() {
-        return content;
+    public String getCommentId() {
+        return commentId;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setCommentId(String commentId) {
+        this.commentId = commentId;
     }
 
-    public String getPictures() {
-        return pictures;
+    public String getCommentContent() {
+        return commentContent;
     }
 
-    public void setPictures(String pictures) {
-        this.pictures = pictures;
+    public void setCommentContent(String commentContent) {
+        this.commentContent = commentContent;
     }
 
-//    public User getPublish() {
-//        return publish;
-//    }
-//
-//    public void setPublish(User publish) {
-//        this.publish = publish;
-//    }
-
-    public String getPublishId() {
-        return publishId;
+    public String getReplayId() {
+        return replayId;
     }
 
-    public void setPublishId(String publishId) {
-        this.publishId = publishId;
+    public void setReplayId(String replayId) {
+        this.replayId = replayId;
+    }
+
+    public String getReplayContent() {
+        return replayContent;
+    }
+
+    public void setReplayContent(String replayContent) {
+        this.replayContent = replayContent;
+    }
+
+    public String getDynamicId() {
+        return dynamicId;
+    }
+
+    public void setDynamicId(String dynamicId) {
+        this.dynamicId = dynamicId;
     }
 
     public LocalDateTime getCreatedAt() {

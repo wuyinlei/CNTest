@@ -61,5 +61,8 @@
         <mapping package="com.cn.ruolan.bean.db"
                  class="com.cn.ruolan.bean.db.Dynamic"/>
 
+        <mapping package="com.cn.ruolan.bean.db"
+                 class="com.cn.ruolan.bean.db.Comment"/>
+
     </session-factory>
 </hibernate-configuration>

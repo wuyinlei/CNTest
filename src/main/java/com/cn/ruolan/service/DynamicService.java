@@ -1,10 +1,11 @@
 package com.cn.ruolan.service;
 
 import com.cn.ruolan.ResponseModel;
-import com.cn.ruolan.bean.api.account.AccountRspModel;
-import com.cn.ruolan.bean.api.account.RegModel;
+import com.cn.ruolan.bean.api.dynamic.DynamicCommentModel;
+import com.cn.ruolan.bean.api.dynamic.DynamicDeleteModel;
 import com.cn.ruolan.bean.api.dynamic.PublishModel;
 import com.cn.ruolan.bean.card.DynamicCard;
+import com.cn.ruolan.bean.db.Comment;
 import com.cn.ruolan.bean.db.Dynamic;
 import com.cn.ruolan.bean.db.User;
 import com.cn.ruolan.factory.DynamicFactory;
@@ -28,27 +29,18 @@ public class DynamicService {
     @Context
     protected SecurityContext mSecurityContext;
 
-    /**
-     * 从上下文中直接获取自己的信息
-     * @return User
-     */
-    public User getSelf() {
-        return (User) mSecurityContext.getUserPrincipal();
-    }
-
 
     @POST
     @Path("/publish")
     @Consumes(MediaType.APPLICATION_JSON)  //指定请求返回的响应体为JSON
     @Produces(MediaType.APPLICATION_JSON)  // JSON 形式将对象返回给客户端
-    public ResponseModel<DynamicCard> register(PublishModel model) {
+    public ResponseModel<DynamicCard> publish(PublishModel model) {
 
         if (model.check(model))
             return ResponseModel.buildParameterError();
 
-        User user = UserFactory.findById(model.getPublishId());
 
-        Dynamic dynamic = DynamicFactory.publish(user, model);
+        Dynamic dynamic = DynamicFactory.publish(model);
 
         if (dynamic == null)
             return ResponseModel.buildServiceError();
@@ -58,5 +50,59 @@ public class DynamicService {
         return ResponseModel.buildOk(dynamicCard);
 
     }
+
+    @POST
+    @Path("/delete")
+    @Consumes(MediaType.APPLICATION_JSON)  //指定请求返回的响应体为JSON
+    @Produces(MediaType.APPLICATION_JSON)  // JSON 形式将对象返回给客户端
+    public ResponseModel<DynamicCard> delete(DynamicDeleteModel model) {
+
+        if (DynamicDeleteModel.check(model))
+            return ResponseModel.buildParameterError();
+
+        Dynamic dynamic = DynamicFactory.findById(model.getDynamicId());
+
+        if (dynamic == null)
+            return ResponseModel.buildDynamicNotExist();
+
+        if (!model.getPublishId().equals(dynamic.getPublishId()))
+            return ResponseModel.buildNoAuthorError();
+
+        DynamicFactory.delete(model.getPublishId());
+
+        return ResponseModel.buildOk();
+
+    }
+
+    @POST
+    @Path("/list")
+    @Consumes(MediaType.APPLICATION_JSON)  //指定请求返回的响应体为JSON
+    @Produces(MediaType.APPLICATION_JSON)  // JSON 形式将对象返回给客户端
+    public ResponseModel<DynamicCard> list(DynamicDeleteModel model) {
+
+
+
+        return null;
+    }
+
+    @POST
+    @Path("/comment")  //发布评论的接口
+    @Consumes(MediaType.APPLICATION_JSON)  //指定请求返回的响应体为JSON
+    @Produces(MediaType.APPLICATION_JSON)  // JSON 形式将对象返回给客户端
+    public ResponseModel<DynamicCard> comment(DynamicCommentModel model) {
+
+        if (DynamicCommentModel.check(model))
+            return ResponseModel.buildParameterError();
+
+        Comment comment = DynamicFactory.comment(model);
+
+        if (comment == null)
+            return ResponseModel.buildServiceError();
+
+        String id = comment.getId();
+
+        return new ResponseModel<>(1, id);
+    }
+
 
 }

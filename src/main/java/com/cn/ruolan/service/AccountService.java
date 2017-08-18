@@ -4,7 +4,6 @@ import com.cn.ruolan.ResponseModel;
 import com.cn.ruolan.bean.api.account.AccountRspModel;
 import com.cn.ruolan.bean.api.account.LoginModel;
 import com.cn.ruolan.bean.api.account.RegModel;
-import com.cn.ruolan.bean.card.UserCard;
 import com.cn.ruolan.bean.db.User;
 import com.cn.ruolan.factory.UserFactory;
 

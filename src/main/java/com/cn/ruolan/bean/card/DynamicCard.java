@@ -23,9 +23,10 @@ public class DynamicCard {
     private LocalDateTime createAt;
     @Expose
     private String publishId;
-
     @Expose
     private UserCard user;
+
+
 
     public DynamicCard(Dynamic dynamic) {
         this.id = dynamic.getId();

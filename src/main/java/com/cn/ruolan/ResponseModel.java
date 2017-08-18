@@ -1,5 +1,6 @@
 package com.cn.ruolan;
 
+import com.cn.ruolan.bean.card.DynamicCard;
 import com.google.gson.annotations.Expose;
 
 import java.io.Serializable;
@@ -41,6 +42,12 @@ public class ResponseModel<T> implements Serializable {
 
     //参数出错
     private static final int ERROR_PARAMETERS = 10007;
+
+    //动态不存在错误
+    private static final int ERROR_DYNAMIC_NOT_EXIST = 10008;
+
+    //删除权限出错
+    private static final int ERROR_DYNAMIC_NOT_ADMIN = 10009;
 
 
     @Expose
@@ -102,6 +109,16 @@ public class ResponseModel<T> implements Serializable {
         return new ResponseModel<T>(ERROR_PARAMETERS, "Parameters Error.");
     }
 
+    public static <T> ResponseModel<T> buildDynamicNotExist() {
+
+        return new ResponseModel<T>(ERROR_DYNAMIC_NOT_EXIST, "Dynamic not Exist Error.");
+
+    }
+
+    public static <T>ResponseModel<T> buildNoAuthorError() {
+        return new ResponseModel<T>(ERROR_DYNAMIC_NOT_ADMIN, " No Administrator privileges");
+    }
+
 
     public int getCode() {
         return code;
@@ -134,4 +151,7 @@ public class ResponseModel<T> implements Serializable {
     public void setResult(T result) {
         this.result = result;
     }
+
+
+
 }

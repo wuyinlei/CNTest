@@ -1,8 +1,6 @@
 package com.cn.ruolan;
 
 import com.cn.ruolan.provider.GsonProvider;
-import com.cn.ruolan.service.AccountService;
-import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import java.util.logging.Logger;
