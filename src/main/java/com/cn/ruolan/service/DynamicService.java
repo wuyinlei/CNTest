@@ -144,15 +144,13 @@ public class DynamicService extends BaseService{
 
         Comment comment = DynamicFactory.deleteComment(model);
 
-        BaseModel baseModel = new BaseModel();
+
         if (comment != null) {
-            baseModel.setCode(-1);
-            baseModel.setMessage("delete failure");
-            return ResponseModel.buildOk(baseModel);
+
+            return ResponseModel.buildDeletCommentError();
         } else {
-            baseModel.setCode(1);
-            baseModel.setMessage("delete success");
-            return ResponseModel.buildOk(baseModel);
+
+            return ResponseModel.buildOk();
         }
 
     }
@@ -176,11 +174,8 @@ public class DynamicService extends BaseService{
         if (dynamicLiked == null)
             return ResponseModel.buildAddLikedError();
 
-        BaseModel baseModel = new BaseModel();
-        baseModel.setCode(0);
-        baseModel.setMessage("Add liked Success");
 
-        return ResponseModel.buildOk(baseModel);
+        return ResponseModel.buildOk();
 
     }
 

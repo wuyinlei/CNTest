@@ -53,6 +53,9 @@ public class ResponseModel<T> implements Serializable {
     //添加点赞出错
     private static final int ERROR_DYNAMIC_ADD_LIKED_ERROR = 100010;
 
+    //删除评论出错
+    private static final int ERROR_DYNAMIC_DELETE_COMMENT_ERROR = 100011;
+
 
     @Expose
     private int code;
@@ -119,12 +122,17 @@ public class ResponseModel<T> implements Serializable {
 
     }
 
-    public static <T>ResponseModel<T> buildNoAuthorError() {
+    public static <T> ResponseModel<T> buildNoAuthorError() {
         return new ResponseModel<T>(ERROR_DYNAMIC_NOT_ADMIN, " No Administrator privileges");
     }
 
-    public static <T>ResponseModel<T> buildAddLikedError() {
+    public static <T> ResponseModel<T> buildAddLikedError() {
         return new ResponseModel<T>(ERROR_DYNAMIC_ADD_LIKED_ERROR, " Dynamic Add Liked Error");
+    }
+
+    public static <T> ResponseModel<T> buildDeletCommentError() {
+        return new ResponseModel<T>(ERROR_DYNAMIC_DELETE_COMMENT_ERROR, " Dynamic Delete Comment Error");
+
     }
 
 
@@ -159,7 +167,6 @@ public class ResponseModel<T> implements Serializable {
     public void setResult(T result) {
         this.result = result;
     }
-
 
 
 }

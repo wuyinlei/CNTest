@@ -31,7 +31,7 @@ public class Dynamic {
     private String content;
 
 
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String pictures;  //动态图片  可以为空
 
     @Column(updatable = false, nullable = false)

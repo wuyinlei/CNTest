@@ -45,7 +45,7 @@ public class DynamicFactory {
      */
     public static Dynamic publish(PublishModel model, User self) {
 
-        Dynamic dynamic = createDynamic(model,self);
+        Dynamic dynamic = createDynamic(model, self);
 
 
         return dynamic;
@@ -191,25 +191,29 @@ public class DynamicFactory {
             model.setViewCount(dynamic.getViewCount());
             model.setDynamicContent(dynamic.getContent());
             model.setUserId(dynamic.getPublishId());
+
             List<DynamicLiked> dynamicLikeds = queryLiked(dynamic.getId());
 
-            //赞逻辑
-            int likedsize = dynamicLikeds.size();
+            if (dynamicLikeds != null) {
 
-            likedsize = likedsize > 30 ? 30 : likedsize;
+                //赞逻辑
+                int likedsize = dynamicLikeds.size();
 
-            List<DynamicRspModel.Liked> likeds = new ArrayList<>();
+                likedsize = likedsize > 30 ? 30 : likedsize;
 
-            for (int i = 0; i < likedsize; i++) {
-                DynamicRspModel.Liked liked = new DynamicRspModel.Liked();
-                DynamicLiked dynamicLiked = dynamicLikeds.get(i);
-                liked.setAvatar(dynamicLiked.getAvatar());
-                liked.setUserId(dynamicLiked.getUserId());
-                likeds.add(liked);
+                List<DynamicRspModel.Liked> likeds = new ArrayList<>();
+
+                for (int i = 0; i < likedsize; i++) {
+                    DynamicRspModel.Liked liked = new DynamicRspModel.Liked();
+                    DynamicLiked dynamicLiked = dynamicLikeds.get(i);
+                    liked.setAvatar(dynamicLiked.getAvatar());
+                    liked.setUserId(dynamicLiked.getUserId());
+                    likeds.add(liked);
+                }
+
+                //设置点赞个数
+                model.setLikeds(likeds);
             }
-
-            //设置点赞个数
-            model.setLikeds(likeds);
 
             //设置当前登录的用户是否点赞过该动态
             model.setLiked(dynamic.getPublishId().equals(publishId));
@@ -218,26 +222,33 @@ public class DynamicFactory {
 
             List<Comment> comments = queryComment(dynamic.getId());
 
-            List<DynamicRspModel.Comments> commentsList = new ArrayList<>();
+            if (comments != null) {
 
-            for (Comment comment : comments) {
-                DynamicRspModel.Comments commentResult = new DynamicRspModel.Comments();
-                commentResult.setCommentId(comment.getCommentId());
-                commentResult.setContent(comment.getCommentContent());
-                if (comment.getReplayName() != null) {
-                    commentResult.setNickname(comment.getNickname());
-                    commentResult.setReplyNickname(comment.getReplayName());
-                    commentResult.setUserId(comment.getCommentId());
-                    commentResult.setReplyUserid(comment.getReplayId());
-                } else {
-                    commentResult.setNickname(comment.getNickname());
-                    commentResult.setUserId(comment.getCommentId());
+                List<DynamicRspModel.Comments> commentsList = new ArrayList<>();
+
+                for (Comment comment : comments) {
+                    DynamicRspModel.Comments commentResult = new DynamicRspModel.Comments();
+                    commentResult.setCommentId(comment.getCommentId());
+                    commentResult.setContent(comment.getCommentContent());
+                    if (comment.getReplayName() != null) {
+                        commentResult.setNickname(comment.getNickname());
+                        commentResult.setReplyNickname(comment.getReplayName());
+                        commentResult.setUserId(comment.getCommentId());
+                        commentResult.setReplyUserid(comment.getReplayId());
+                        commentResult.setContent(comment.getReplayContent());
+                    } else {
+                        commentResult.setNickname(comment.getNickname());
+                        commentResult.setUserId(comment.getCommentId());
+                    }
+                    commentsList.add(commentResult);
                 }
-                commentsList.add(commentResult);
-            }
 
-            model.setCommentCount(commentsList.size() + "");
-            model.setComments(commentsList);
+                model.setCommentCount(commentsList.size() + "");
+                model.setComments(commentsList);
+            } else {
+                //没有评论
+
+            }
 
 
             dynamicRspModels.add(model);
@@ -260,7 +271,8 @@ public class DynamicFactory {
             @Override
             public List<DynamicLiked> query(Session session) {
 
-                return session.createQuery("from DynamicLiked ")
+                return session.createQuery("from DynamicLiked where dynamicId=:dynamicId")
+                        .setParameter("dynamicId", dynamicId)
 //                        .setMaxResults(30)
                         .list();
 
@@ -280,7 +292,8 @@ public class DynamicFactory {
             @Override
             public List<Comment> query(Session session) {
 
-                return session.createQuery("from Comment ")
+                return session.createQuery("from Comment where dynamicId = :dynamicId")
+                        .setParameter("dynamicId", dynamicId)
 //                        .setMaxResults(30)
                         .list();
 
@@ -315,7 +328,7 @@ public class DynamicFactory {
     }
 
 
-    public static DynamicLiked addLike(DynamicAddLikeModel model,User user) {
+    public static DynamicLiked addLike(DynamicAddLikeModel model, User user) {
 
         DynamicLiked dynamicLiked = new DynamicLiked();
         dynamicLiked.setDynamicId(model.getDynamicId());
@@ -369,7 +382,7 @@ public class DynamicFactory {
     public static Comment findComment(String commentId) {
 
 
-       return Hib.query(new Hib.QueryResult<Comment>() {
+        return Hib.query(new Hib.QueryResult<Comment>() {
             @Override
             public Comment query(Session session) {
 
@@ -385,14 +398,17 @@ public class DynamicFactory {
 
     public static Comment deleteComment(DynamicDeleteCommentModel model) {
 
-       return Hib.query(new Hib.QueryResult<Comment>() {
+        return Hib.query(new Hib.QueryResult<Comment>() {
             @Override
             public Comment query(Session session) {
 
+
                 session.delete(findComment(model.getCommentId()));
 
+                //如果找不到就是删除成功
+                Comment comment = findComment(model.getCommentId());
 
-                return findComment(model.getCommentId());
+                return comment;
             }
         });
 

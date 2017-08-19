@@ -15,12 +15,12 @@ public class DynamicListModel {
     private String count;  //一页多少个
 
     @Expose
-    private String publishId;// 当前用户的id
+    private String userId;// 当前用户的id
 
     public static boolean check(DynamicListModel model) {
         return model != null && Strings.isNullOrEmpty(model.index)
                 || Strings.isNullOrEmpty(model.count)
-                || Strings.isNullOrEmpty(model.publishId);
+                || Strings.isNullOrEmpty(model.userId);
     }
 
     public String getIndex() {
@@ -40,10 +40,10 @@ public class DynamicListModel {
     }
 
     public String getPublishId() {
-        return publishId;
+        return userId;
     }
 
     public void setPublishId(String publishId) {
-        this.publishId = publishId;
+        this.userId = publishId;
     }
 }

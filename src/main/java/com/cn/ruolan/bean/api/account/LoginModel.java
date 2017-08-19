@@ -9,7 +9,7 @@ import com.google.gson.annotations.Expose;
 public class LoginModel {
 
     @Expose
-    private String username;  //账户
+    private String phone;  //账户
     @Expose
     private String password;  //密码
 
@@ -21,16 +21,16 @@ public class LoginModel {
     public static boolean check(LoginModel model) {
 
         return model != null
-                && Strings.isNullOrEmpty(model.username)
+                && Strings.isNullOrEmpty(model.phone)
                 && Strings.isNullOrEmpty(model.password);
     }
 
     public String getAccount() {
-        return username;
+        return phone;
     }
 
     public void setAccount(String account) {
-        this.username = account;
+        this.phone = account;
     }
 
     public String getPassword() {
